@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/backColor">
+
+    <ImageView
+        android:id="@+id/iconito"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_gramdownload"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/txtInstrucciones"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:text="1- Find a video you like\n2- Hit the share/send button in the app\n3- On the bottom row where you see all the apps, search for Gram Downloader\n4- When the text appears on the url bar, hit the Download button below and wait!"
+        android:layout_below="@id/iconito"/>
+
+    <EditText
+        android:id="@+id/txtLink"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtInstrucciones"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/btnDownload"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:text="Download"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/txtLink"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorAccent"/>
+
+</RelativeLayout>
