@@ -25,13 +25,25 @@ public class GramDownloaderService {
             int startIndex = html.lastIndexOf(searchPhrase);
             int mainIndex = startIndex + searchPhrase.length();
             String searchPhrase2 = "{\"edges\":[]}}}}";
+            int finalIndex = 0;
             int lastIndex = html.lastIndexOf(searchPhrase2);
-            int finalIndex = lastIndex + searchPhrase2.length();
+            if (lastIndex != -1) {
+                finalIndex = lastIndex + searchPhrase2.length();
+            } else {
+                // Patch to download videos from suggested or saved posts
+                searchPhrase2 = "]},\"hostname\"";
+                finalIndex = html.lastIndexOf(searchPhrase2);
+            }
             String json = html.substring(mainIndex, finalIndex);                    // Esto debiera dejarnos con un json completo
             Gson gson = new Gson();
             PageContentTO to = gson.fromJson(json, PageContentTO.class);
             String urlVideo = to.getGraphql().getShortcode_media().getVideo_url();  // Porque faltaban Strings en esta wea
-            queueDownload(urlVideo, to.getGraphql().getShortcode_media().getId() + ".mp4");
+            String filename = to.getGraphql().getShortcode_media().getId() + ".mp4";
+            if (!urlVideo.isEmpty()) {
+                queueDownload(urlVideo, filename);
+            } else {
+                throw new Exception("Error, Video URL not found");
+            }
         }
     }
 
