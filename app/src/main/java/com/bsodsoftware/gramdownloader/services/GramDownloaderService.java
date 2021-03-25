@@ -38,11 +38,25 @@ public class GramDownloaderService {
             Gson gson = new Gson();
             PageContentTO to = gson.fromJson(json, PageContentTO.class);
             String urlVideo = to.getGraphql().getShortcode_media().getVideo_url();  // Porque faltaban Strings en esta wea
-            String filename = to.getGraphql().getShortcode_media().getId() + ".mp4";
-            if (!urlVideo.isEmpty()) {
+            String filename = "";
+            if (urlVideo != null && !urlVideo.isEmpty()) {
+                filename = to.getGraphql().getShortcode_media().getId() + ".mp4";
                 queueDownload(urlVideo, filename);
             } else {
-                throw new Exception("Error, Video URL not found");
+                if (to.getGraphql().getShortcode_media().getEdge_sidecar_to_children() != null) {
+                    for (PageContentTO.Edges edge : to.getGraphql().getShortcode_media().getEdge_sidecar_to_children().getEdges()) {
+                        if (edge.getNode().getVideo_url() != null && !edge.getNode().getVideo_url().isEmpty()) {
+                            urlVideo = edge.getNode().getVideo_url();
+                            filename = edge.getNode().getId() + ".mp4";
+                            queueDownload(urlVideo,filename);
+                        } else {
+                            throw new Exception("Could not retrieve video URL. Sorry! Gotta work on it!");
+                        }
+                    }
+
+                } else {
+                    throw new Exception("Could not retrieve video URL. Sorry! Gotta work on it!");
+                }
             }
         }
     }
